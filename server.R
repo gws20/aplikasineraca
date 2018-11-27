@@ -64,14 +64,11 @@ function(input, output, session) {
         selisih<-input$tahun_akhir-th_dasar_DF
         updateNumericInput(session, "tahun_akhir", value = input$tahun_awal+selisih, min = input$tahun_awal)
         tmpColnames<-c(colnames1)
-        for(i in 0:selisih){
+        for(i in 0:m){
           tmpColnames<-c(tmpColnames,paste("T",input$tahun_awal+i,sep=""))
         }
         DF_produksi_ahk = hot_produksi_ahk()
         colnames(DF_produksi_ahk)<-tmpColnames
-        
-        pajak = hot_pajak_produksi_ahk()
-        colnames(pajak_produksi_ahk)<-tmpColnames[-(1:2)]
       }else if(m<nTahun){
         for(i in (m+1):(nTahun)){
           colname<-paste("T",input$tahun_awal+i,sep="")
@@ -89,12 +86,24 @@ function(input, output, session) {
         DF_produksi_ahk <- values[["DF_produksi_ahk"]]
     }
     
+    
+    values[["DF_produksi_ahk"]] <- DF_produksi_ahk
+  })
+  
+  observe({
+    nTahun<-input$tahun_akhir-input$tahun_awal
     if (!is.null(input_pajak_produksi_ahk())) {
       pajak_produksi_ahk = hot_pajak_produksi_ahk()
       m = dim(pajak_produksi_ahk)[2]-1
       n = dim(pajak_produksi_ahk)[1]
       th_dasar_pajak<-as.numeric(substr(colnames(pajak_produksi_ahk)[1],2,5))
-      if(m<nTahun){ #jika ada tahun akhir ditambah
+      if(th_dasar_pajak!=input$tahun_awal){
+        colname_pajak<-c()
+        for(i in 0:m){
+          colname_pajak<-c(colname_pajak,paste("T",input$tahun_awal+i,sep=""))
+        }
+        colnames(pajak_produksi_ahk)<-colname_pajak
+      }else if(m<nTahun){ #jika ada tahun akhir ditambah
         for(i in (m+1):(nTahun)){
           colname_pajak<-paste("T",input$tahun_awal+i,sep="")
           pajak_produksi_ahk[,"new"]<-rep(0,n)
@@ -110,9 +119,8 @@ function(input, output, session) {
       else
         pajak_produksi_ahk <- values[["pajak_produksi_ahk"]]
     }
-    
-    values[["DF_produksi_ahk"]] <- DF_produksi_ahk
     values[["pajak_produksi_ahk"]] <- pajak_produksi_ahk
+    
   })
   
   
@@ -147,14 +155,11 @@ function(input, output, session) {
         selisih<-input$tahun_akhir-th_dasar_DF
         updateNumericInput(session, "tahun_akhir", value = input$tahun_awal+selisih, min = input$tahun_awal)
         tmpColnames<-c(colnames1)
-        for(i in 0:selisih){
+        for(i in 0:m){
           tmpColnames<-c(tmpColnames,paste("T",input$tahun_awal+i,sep=""))
         }
         DF_produksi_ahb = hot_produksi_ahb()
         colnames(DF_produksi_ahb)<-tmpColnames
-        
-        pajak = hot_pajak_produksi_ahb()
-        colnames(pajak_produksi_ahb)<-tmpColnames[-(1:2)]
       }else if(m<nTahun){
         for(i in (m+1):(nTahun)){
           colname<-paste("T",input$tahun_awal+i,sep="")
@@ -172,12 +177,24 @@ function(input, output, session) {
         DF_produksi_ahb <- values[["DF_produksi_ahb"]]
     }
     
+    
+    values[["DF_produksi_ahb"]] <- DF_produksi_ahb
+  })
+  
+  observe({
+    nTahun<-input$tahun_akhir-input$tahun_awal
     if (!is.null(input_pajak_produksi_ahb())) {
       pajak_produksi_ahb = hot_pajak_produksi_ahb()
       m = dim(pajak_produksi_ahb)[2]-1
       n = dim(pajak_produksi_ahb)[1]
       th_dasar_pajak<-as.numeric(substr(colnames(pajak_produksi_ahb)[1],2,5))
-      if(m<nTahun){ #jika ada tahun akhir ditambah
+      if(th_dasar_pajak!=input$tahun_awal){
+        colname_pajak<-c()
+        for(i in 0:m){
+          colname_pajak<-c(colname_pajak,paste("T",input$tahun_awal+i,sep=""))
+        }
+        colnames(pajak_produksi_ahb)<-colname_pajak
+      }else if(m<nTahun){ #jika ada tahun akhir ditambah
         for(i in (m+1):(nTahun)){
           colname_pajak<-paste("T",input$tahun_awal+i,sep="")
           pajak_produksi_ahb[,"new"]<-rep(0,n)
@@ -193,9 +210,8 @@ function(input, output, session) {
       else
         pajak_produksi_ahb <- values[["pajak_produksi_ahb"]]
     }
-    
-    values[["DF_produksi_ahb"]] <- DF_produksi_ahb
     values[["pajak_produksi_ahb"]] <- pajak_produksi_ahb
+    
   })
   
   

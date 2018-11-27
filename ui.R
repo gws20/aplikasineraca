@@ -1,3 +1,8 @@
+library(rhandsontable)
+library(shiny)
+library(shinythemes)
+library(googleVis)
+library(DT)
 navbarPage(
   "Aplikasi Neraca",
   tabPanel("INPUT",
@@ -5,7 +10,7 @@ navbarPage(
            pageWithSidebar(
              headerPanel('Masukan Nilai'),
              sidebarPanel(
-               numericInput("tahun_awal","Tahun Awal",2010, min =2010, max=2010),
+               numericInput("tahun_awal","Tahun Awal",2010),
                numericInput("tahun_akhir","Tahun AKhir",2010, min = 2010)
              ),
              mainPanel(
