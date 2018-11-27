@@ -3,6 +3,7 @@ library(shiny)
 library(shinythemes)
 library(googleVis)
 library(DT)
+library(ggplot2)
 
 function(input, output, session) {
   
@@ -331,14 +332,15 @@ function(input, output, session) {
   })
   
   
+  #### PErtumbuhan Ekonomi####
   
-  
+  #### Struktur Ekonomi####
   output$table_struktur <- DT::renderDataTable({
-    ValAdd <- values[['DF']]
-    tax <- data.frame(c("Pajak dikurangi Subsidi Atas Produk","",values[['pajak']]))
+    ValAdd <- values[['DF_produksi_ahb']]
+    tax <- data.frame(c("Pajak dikurangi Subsidi Atas Produk","",values[['pajak_produksi_ahb']]))
     colnames(tax)<-colnames(ValAdd)
     
-    datatable(b_strukEko(ValAdd,tax), 
+    datatable(strukEko(ValAdd,tax), 
               extensions = 'Buttons',
               options = list(
                 pageLength = 10,
@@ -351,14 +353,20 @@ function(input, output, session) {
   })
   
   output$graph_struktur <- renderPlot({
-    ValAdd <- values[['DF']]
-    tax <- data.frame(c("Pajak dikurangi Subsidi Atas Produk","",values[['pajak']]))
+    ValAdd <- values[['DF_produksi_ahb']]
+    tax <- data.frame(c("Pajak dikurangi Subsidi Atas Produk","",values[['pajak_produksi_ahb']]))
     colnames(tax)<-colnames(ValAdd)
-    b_data<-b_graph_format_struktur(ValAdd,tax,input$b_tahun_awal,input$b_tahun_akhir)
-    my_fun=function(vec){ as.numeric(vec[3]) / sum(b_data$value[b_data$year==vec[2]]) *100 }
-    b_data$prop=apply(b_data , 1 , my_fun)
+    data<-graph_format_struktur(ValAdd,tax,input$tahun_awal,input$tahun_akhir)
+    my_fun=function(vec){ as.numeric(vec[3]) / sum(data$value[data$year==vec[2]]) *100 }
+    data$prop=apply(data , 1 , my_fun)
     
-    ggplot(b_data, aes(x=year, y=prop, fill=sector)) + 
+    ggplot(data, aes(x=year, y=prop, fill=sector)) + 
       geom_area(alpha=0.6 , size=1, colour="black")
   })
+  
+  #### Inflasi####
+  
+  #### ICOR ####
+  
+  #### Perkiraan Investasi####
 }

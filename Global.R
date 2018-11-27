@@ -1,0 +1,1 @@
+source("model/struktur_ekonomi.R")

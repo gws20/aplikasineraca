@@ -46,6 +46,35 @@ navbarPage(
              
            )
   ),
+  tabPanel("Pertumbuhan Ekonomi"
+           ####Pertumbuhan Ekonomi####
+           ),
+  tabPanel("Struktur Ekonomi",
+           ####Struktur Ekonomi####
+           fluidPage(
+               tabsetPanel(id = "tabset_struktur_ekonomi",
+                           tabPanel("Tabel", value = "tab_tabel",
+                                    fluidRow(
+                                      h1("TAbel Struktur Ekonomi"),
+                                      DT::dataTableOutput("table_struktur"),
+                                      br())
+                           ),
+                           tabPanel("Grafik", value = "tab_grafik",
+                                    plotOutput("graph_struktur")
+                           )
+               )
+             
+           )
+  ),
+  tabPanel("Inflasi"
+           ####Inflasi####
+  ),
+  tabPanel("ICOR"
+           ####ICOR####
+  ),
+  tabPanel("Perkiraan Investasi"
+           ####Perkiraan Investasi####
+  ),
   
   theme = shinytheme('flatly')
 )
